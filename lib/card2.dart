@@ -6,31 +6,37 @@ import 'fooderlich_theme.dart';
 class Card2 extends StatelessWidget {
   const Card2({Key? key}) : super(key: key);
 
-  final String category = 'Editor\'s Choice';
-  final String title = 'The art of chleb';
-  final String description = 'Learn to make bardzo dobry chleb';
-  final String chef = 'Michał J. Gąsior';
-
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        child: Stack(
+        child: Column(
           children: [
-            const AuthorCard(),
-            Positioned(
-                child: Text(description,
-                    style: FooderlichTheme.darkTextTheme.bodyText1),
-                bottom: 30,
-                right: 0),
-            Positioned(
-                child:
-                    Text(chef, style: FooderlichTheme.darkTextTheme.bodyText1),
-                bottom: 10,
-                right: 0),
+            const AuthorCard(
+                authorName: "Jan Sześcian",
+                title: "Smooth",
+                imageProvider: AssetImage('assets/author_mjg.png')),
+            Expanded(
+              child: Stack(
+                children: [
+                  Positioned(
+                      child: Text('Recipe',
+                          style: FooderlichTheme.darkTextTheme.headline1),
+                      right: 16,
+                      bottom: 16),
+                  Positioned(
+                      child: RotatedBox(
+                        quarterTurns: 3,
+                        child: Text('Smoothies',
+                            style: FooderlichTheme.darkTextTheme.headline1),
+                      ),
+                      bottom: 70,
+                      left: 16),
+                ],
+              ),
+            )
           ],
         ),
-        padding: const EdgeInsets.all(16),
         constraints: const BoxConstraints.expand(width: 350, height: 450),
         decoration: const BoxDecoration(
             image: DecorationImage(

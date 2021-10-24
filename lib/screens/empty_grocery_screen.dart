@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:learning_dart/models/models.dart';
+import 'package:provider/provider.dart';
 
 class EmptyGroceryScreen extends StatelessWidget {
   const EmptyGroceryScreen({Key? key}) : super(key: key);
@@ -17,16 +19,18 @@ class EmptyGroceryScreen extends StatelessWidget {
             const SizedBox(height: 16),
             const Text('No groceries', style: TextStyle(fontSize: 21.0)),
             const SizedBox(height: 16),
-            const Text('Shopping for ingredients?\n'
-            'Tap the + button to write them down!',
-            textAlign: TextAlign.center),
+            const Text(
+                'Shopping for ingredients?\n'
+                'Tap the + button to write them down!',
+                textAlign: TextAlign.center),
             MaterialButton(
               textColor: Colors.white,
               child: const Text('Browse recipes'),
-              shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(30.0)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0)),
               color: Colors.green,
               onPressed: () {
-
+                Provider.of<TabManager>(context, listen: false).goToRecipes();
               },
             )
           ],

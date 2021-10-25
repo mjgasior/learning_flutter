@@ -18,7 +18,10 @@ class Fooderlich extends StatelessWidget {
       theme: theme,
       title: 'Fooderlich',
       home: MultiProvider(
-        providers: [ChangeNotifierProvider(create: (context) => TabManager())],
+        providers: [
+          ChangeNotifierProvider(create: (context) => TabManager()),
+          ChangeNotifierProvider(create: (context) => GroceryManager()),
+        ],
         child: const Home(),
       )
     );

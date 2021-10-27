@@ -6,6 +6,8 @@ This project is based on a book ***Flutter apprentice*** by **Mike Katz, Kevin D
 * The **main axis** always corresponds to the scroll direction!
 * Although `aspectRatio` is of `double` type, it is recommended by Flutter documentation to specify it as `width / height`, so instead of value `1.0` write `1 / 1`.
 * You should not use **`Container`** as a **`SizedBox`** because the first widget needs a lot more processing than the latter.
+* **`InkWell`** adds the tap effect on user gestures and **`Dismissible`** allows to handle the swipe gestures easily.
+* **`IndexedStack`** is a widget that holds the state of the app, so when switching between views, data is not being lost.
 
 ## Resources
 

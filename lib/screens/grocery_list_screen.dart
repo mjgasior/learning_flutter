@@ -16,26 +16,41 @@ class GroceryListScreen extends StatelessWidget {
       child: ListView.separated(
           itemBuilder: (context, index) {
             final item = groceryItems[index];
-            // TODO 28
 
-            return InkWell(
-              child: GroceryTile(
-                key: Key(item.id as String),
-                item: item,
-                onComplete: (change) {
-                  manager.completeItem(index, change == true);
+            return Dismissible(
+              key: Key(item.id as String),
+              direction: DismissDirection.endToStart,
+              background: Container(
+                color: Colors.red,
+                alignment: Alignment.centerRight,
+                child: const Icon(Icons.delete_forever,
+                    color: Colors.white, size: 50.0),
+              ),
+              onDismissed: (direction) {
+                manager.deleteItem(index);
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('${item.name} dismissed')));
+              },
+              child: InkWell(
+                child: GroceryTile(
+                  key: Key(item.id as String),
+                  item: item,
+                  onComplete: (change) {
+                    manager.completeItem(index, change == true);
+                  },
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => GroceryItemScreen(
+                              originalItem: item,
+                              onUpdate: (item) {
+                                manager.updateItem(item, index);
+                                Navigator.pop(context);
+                              })));
                 },
               ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => GroceryItemScreen(originalItem: item,
-                      onUpdate: (item) {
-                    manager.updateItem(item, index);
-                      Navigator.pop(context);
-                      }))
-                );
-              },
             );
           },
           separatorBuilder: (context, index) {

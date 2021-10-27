@@ -7,14 +7,14 @@ import 'package:learning_dart/models/models.dart';
 import 'package:uuid/uuid.dart';
 
 class GroceryItemScreen extends StatefulWidget {
-  final Function(GroceryItem) onCreate;
+  final Function(GroceryItem)? onCreate;
   final Function(GroceryItem) onUpdate;
   final GroceryItem? originalItem;
   final bool isUpdating;
 
   const GroceryItemScreen(
       {Key? key,
-      required this.onCreate,
+      this.onCreate,
       required this.onUpdate,
       this.originalItem})
       : isUpdating = (originalItem != null),
@@ -74,7 +74,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
                   if (widget.isUpdating) {
                     widget.onUpdate(groceryItem);
                   } else {
-                    widget.onCreate(groceryItem);
+                    widget.onCreate!(groceryItem);
                   }
                 },
                 icon: const Icon(Icons.check))

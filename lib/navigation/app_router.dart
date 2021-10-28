@@ -30,7 +30,9 @@ class AppRouter extends RouterDelegate
       pages: [
         if (!appStateManager.isInitialized) SplashScreen.page(),
         if (appStateManager.isInitialized && !appStateManager.isLoggedIn)
-          LoginScreen.page()
+          LoginScreen.page(),
+        if (appStateManager.isLoggedIn && !appStateManager.isOnboardingComplete)
+          OnboardingScreen.page()
       ],
       onPopPage: _handlePopPage,
     );
@@ -40,6 +42,11 @@ class AppRouter extends RouterDelegate
     if (!route.didPop(result)) {
       return false;
     }
+
+    if (route.settings.name == FooderlichPages.onboardingPath) {
+      appStateManager.logout();
+    }
+
     return true;
   }
 

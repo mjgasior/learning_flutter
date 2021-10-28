@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fooderlich/models/app_state_manager.dart';
-import 'package:fooderlich/models/grocery_manager.dart';
-import 'package:fooderlich/models/models.dart';
+import 'package:fooderlich/screens/screens.dart';
+import '../models/app_state_manager.dart';
+import '../models/grocery_manager.dart';
+import '../models/models.dart';
 
 class AppRouter extends RouterDelegate
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
@@ -16,13 +17,19 @@ class AppRouter extends RouterDelegate
       {required this.appStateManager,
       required this.groceryManager,
       required this.profileManager})
-      : navigatorKey = GlobalKey<NavigatorState>() {}
+      : navigatorKey = GlobalKey<NavigatorState>() {
+    appStateManager.addListener(notifyListeners);
+    groceryManager.addListener(notifyListeners);
+    profileManager.addListener(notifyListeners);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Navigator(
       key: navigatorKey,
-      pages: [],
+      pages: [
+        if (!appStateManager.isInitialized) SplashScreen.page()
+      ],
       onPopPage: _handlePopPage,
     );
   }
@@ -38,5 +45,13 @@ class AppRouter extends RouterDelegate
   Future<void> setNewRoutePath(configuration) {
     // TODO: implement setNewRoutePath
     throw UnimplementedError();
+  }
+
+  @override
+  void dispose() {
+    appStateManager.removeListener(notifyListeners);
+    groceryManager.removeListener(notifyListeners);
+    profileManager.removeListener(notifyListeners);
+    super.dispose();
   }
 }

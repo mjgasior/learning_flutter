@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fooderlich/screens/screens.dart';
+import '../screens/screens.dart';
 import '../models/app_state_manager.dart';
 import '../models/grocery_manager.dart';
 import '../models/models.dart';
@@ -28,7 +28,9 @@ class AppRouter extends RouterDelegate
     return Navigator(
       key: navigatorKey,
       pages: [
-        if (!appStateManager.isInitialized) SplashScreen.page()
+        if (!appStateManager.isInitialized) SplashScreen.page(),
+        if (appStateManager.isInitialized && !appStateManager.isLoggedIn)
+          LoginScreen.page()
       ],
       onPopPage: _handlePopPage,
     );

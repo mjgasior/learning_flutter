@@ -32,7 +32,9 @@ class AppRouter extends RouterDelegate
         if (appStateManager.isInitialized && !appStateManager.isLoggedIn)
           LoginScreen.page(),
         if (appStateManager.isLoggedIn && !appStateManager.isOnboardingComplete)
-          OnboardingScreen.page()
+          OnboardingScreen.page(),
+        if (appStateManager.isOnboardingComplete)
+          Home.page(appStateManager.getSelectedTab)
       ],
       onPopPage: _handlePopPage,
     );

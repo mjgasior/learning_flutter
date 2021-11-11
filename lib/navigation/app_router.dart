@@ -51,6 +51,8 @@ class AppRouter extends RouterDelegate
               onCreate: (item) {}),
         if (profileManager.didSelectUser)
           ProfileScreen.page(profileManager.getUser),
+        if (profileManager.didTapOnRaywenderlich)
+          WebViewScreen.page(),
       ],
       onPopPage: _handlePopPage,
     );
@@ -67,6 +69,14 @@ class AppRouter extends RouterDelegate
 
     if (route.settings.name == FooderlichPages.groceryItemDetails) {
       groceryManager.groceryItemTapped(-1);
+    }
+
+    if (route.settings.name == FooderlichPages.profilePath) {
+      profileManager.tapOnProfile(false);
+    }
+
+    if (route.settings.name == FooderlichPages.raywenderlich) {
+      profileManager.tapOnRaywenderlich(false);
     }
 
     return true;

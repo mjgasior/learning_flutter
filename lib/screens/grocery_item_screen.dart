@@ -11,12 +11,12 @@ class GroceryItemScreen extends StatefulWidget {
   final Function(GroceryItem) onCreate;
   final Function(GroceryItem, int) onUpdate;
   final GroceryItem? originalItem;
-  final int index;
+  final int? index;
   final bool isUpdating;
 
   static MaterialPage page(
       {GroceryItem? item,
-      required int index,
+      int? index,
       required Function(GroceryItem) onCreate,
       required Function(GroceryItem, int) onUpdate}) {
     return MaterialPage(
@@ -78,7 +78,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
               if (widget.isUpdating) {
                 widget.onUpdate(
                   groceryItem,
-                  widget.index,
+                  widget.index as int,
                 );
               } else {
                 widget.onCreate(groceryItem);

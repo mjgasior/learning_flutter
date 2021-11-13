@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fooderlich/navigation/app_link.dart';
 
 import '../models/models.dart';
 import '../screens/screens.dart';
 
-class AppRouter extends RouterDelegate //TODO: Add <AppLink>
+class AppRouter extends RouterDelegate<AppLink>
     with
         ChangeNotifier,
         PopNavigatorRouterDelegateMixin {
@@ -98,7 +99,27 @@ class AppRouter extends RouterDelegate //TODO: Add <AppLink>
 
   // TODO: Apply configuration helper
 
-  // TODO: Replace setNewRoutePath
   @override
-  Future<void> setNewRoutePath(configuration) async => null;
+  Future<void> setNewRoutePath(AppLink configuration) async {
+    switch (configuration.location) {
+      case AppLink.kProfilePath:
+        profileManager.tapOnProfile(true);
+        break;
+      case AppLink.kItemPath:
+        if (configuration.itemId != null) {
+          groceryManager.setSelectedGroceryItem(configuration.itemId as String);
+        } else {
+          groceryManager.createNewItem();
+        }
+        profileManager.tapOnProfile(false);
+        break;
+      case AppLink.kHomePath:
+        appStateManager.goToTab(configuration.currentTab ?? 0);
+        profileManager.tapOnProfile(false);
+        groceryManager.groceryItemTapped(-1);
+        break;
+      default:
+        break;
+    }
+  }
 }

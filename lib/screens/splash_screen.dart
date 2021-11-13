@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:fooderlich/models/fooderlich_pages.dart';
-import 'package:fooderlich/models/models.dart';
 import 'package:provider/provider.dart';
+
+import '../models/models.dart';
 
 class SplashScreen extends StatefulWidget {
   static MaterialPage page() {
     return MaterialPage(
       name: FooderlichPages.splashPath,
       key: ValueKey(FooderlichPages.splashPath),
-      child: const SplashScreen()
+      child: const SplashScreen(),
     );
   }
 
@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 200,
               image: AssetImage('assets/fooderlich_assets/rw_logo.png'),
             ),
-            const Text('Initializing...'),
+            const Text('Initializing...')
           ],
         ),
       ),

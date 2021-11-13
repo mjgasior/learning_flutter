@@ -11,23 +11,25 @@ class GroceryItemScreen extends StatefulWidget {
   final Function(GroceryItem) onCreate;
   final Function(GroceryItem, int) onUpdate;
   final GroceryItem? originalItem;
-  final int? index;
+  final int index;
   final bool isUpdating;
 
-  static MaterialPage page(
-      {GroceryItem? item,
-      int? index,
-      required Function(GroceryItem) onCreate,
-      required Function(GroceryItem, int) onUpdate}) {
+  static MaterialPage page({
+    GroceryItem? item,
+    int index = -1,
+    required Function(GroceryItem) onCreate,
+    required Function(GroceryItem, int) onUpdate,
+  }) {
     return MaterialPage(
-        name: FooderlichPages.groceryItemDetails,
-        key: ValueKey(FooderlichPages.groceryItemDetails),
-        child: GroceryItemScreen(
-          originalItem: item,
-          index: index,
-          onCreate: onCreate,
-          onUpdate: onUpdate,
-        ));
+      name: FooderlichPages.groceryItemDetails,
+      key: ValueKey(FooderlichPages.groceryItemDetails),
+      child: GroceryItemScreen(
+        originalItem: item,
+        index: index,
+        onCreate: onCreate,
+        onUpdate: onUpdate,
+      ),
+    );
   }
 
   const GroceryItemScreen({
@@ -76,10 +78,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
               );
 
               if (widget.isUpdating) {
-                widget.onUpdate(
-                  groceryItem,
-                  widget.index as int,
-                );
+                widget.onUpdate(groceryItem, widget.index);
               } else {
                 widget.onCreate(groceryItem);
               }
@@ -89,9 +88,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
         elevation: 0.0,
         title: Text(
           'Grocery Item',
-          style: GoogleFonts.lato(
-            fontWeight: FontWeight.w600,
-          ),
+          style: GoogleFonts.lato(fontWeight: FontWeight.w600),
         ),
       ),
       body: Container(
@@ -135,9 +132,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
       children: [
         Text(
           'Item Name',
-          style: GoogleFonts.lato(
-            fontSize: 28.0,
-          ),
+          style: GoogleFonts.lato(fontSize: 28.0),
         ),
         TextField(
           controller: _nameController,
@@ -145,19 +140,13 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
           decoration: InputDecoration(
             hintText: 'E.g. Apples, Banana, 1 Bag of salt',
             enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.white,
-              ),
+              borderSide: BorderSide(color: Colors.white),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: _currentColor,
-              ),
+              borderSide: BorderSide(color: _currentColor),
             ),
             border: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: _currentColor,
-              ),
+              borderSide: BorderSide(color: _currentColor),
             ),
           ),
         ),

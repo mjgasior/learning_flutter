@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../screens/screens.dart';
-import '../models/app_state_manager.dart';
-import '../models/grocery_manager.dart';
-import '../models/models.dart';
 
-class AppRouter extends RouterDelegate
-    with ChangeNotifier, PopNavigatorRouterDelegateMixin {
+import '../models/models.dart';
+import '../screens/screens.dart';
+
+class AppRouter extends RouterDelegate //TODO: Add <AppLink>
+    with
+        ChangeNotifier,
+        PopNavigatorRouterDelegateMixin {
   @override
   final GlobalKey<NavigatorState> navigatorKey;
 
@@ -13,48 +14,59 @@ class AppRouter extends RouterDelegate
   final GroceryManager groceryManager;
   final ProfileManager profileManager;
 
-  AppRouter(
-      {required this.appStateManager,
-      required this.groceryManager,
-      required this.profileManager})
-      : navigatorKey = GlobalKey<NavigatorState>() {
+  AppRouter({
+    required this.appStateManager,
+    required this.groceryManager,
+    required this.profileManager,
+  }) : navigatorKey = GlobalKey<NavigatorState>() {
     appStateManager.addListener(notifyListeners);
     groceryManager.addListener(notifyListeners);
     profileManager.addListener(notifyListeners);
   }
 
   @override
+  void dispose() {
+    appStateManager.removeListener(notifyListeners);
+    groceryManager.removeListener(notifyListeners);
+    profileManager.removeListener(notifyListeners);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Navigator(
       key: navigatorKey,
-      pages: [
-        if (!appStateManager.isInitialized) SplashScreen.page(),
-        if (appStateManager.isInitialized && !appStateManager.isLoggedIn)
-          LoginScreen.page(),
-        if (appStateManager.isLoggedIn && !appStateManager.isOnboardingComplete)
-          OnboardingScreen.page(),
-        if (appStateManager.isOnboardingComplete)
-          Home.page(appStateManager.getSelectedTab),
-        if (groceryManager.isCreatingNewItem)
-          GroceryItemScreen.page(
-              onCreate: (item) {
-                groceryManager.addItem(item);
-              },
-              onUpdate: (item, index) {}),
-        if (groceryManager.selectedIndex != -1)
-          GroceryItemScreen.page(
-              item: groceryManager.selectedGroceryItem,
-              index: groceryManager.selectedIndex,
-              onUpdate: (item, index) {
-                groceryManager.updateItem(item, index);
-              },
-              onCreate: (item) {}),
-        if (profileManager.didSelectUser)
-          ProfileScreen.page(profileManager.getUser),
-        if (profileManager.didTapOnRaywenderlich)
-          WebViewScreen.page(),
-      ],
       onPopPage: _handlePopPage,
+      pages: [
+        if (!appStateManager.isInitialized) ...[
+          SplashScreen.page(),
+        ] else if (!appStateManager.isLoggedIn) ...[
+          LoginScreen.page(),
+        ] else if (!appStateManager.isOnboardingComplete) ...[
+          OnboardingScreen.page(),
+        ] else ...[
+          Home.page(appStateManager.getSelectedTab),
+          if (groceryManager.isCreatingNewItem)
+            GroceryItemScreen.page(onCreate: (item) {
+              groceryManager.addItem(item);
+            }, onUpdate: (item, index) {
+              // No update
+            }),
+          if (groceryManager.selectedIndex != -1)
+            GroceryItemScreen.page(
+                item: groceryManager.selectedGroceryItem,
+                index: groceryManager.selectedIndex,
+                onCreate: (_) {
+                  // No create
+                },
+                onUpdate: (item, index) {
+                  groceryManager.updateItem(item, index);
+                }),
+          if (profileManager.didSelectUser)
+            ProfileScreen.page(profileManager.getUser),
+          if (profileManager.didTapOnRaywenderlich) WebViewScreen.page(),
+        ]
+      ],
     );
   }
 
@@ -82,17 +94,11 @@ class AppRouter extends RouterDelegate
     return true;
   }
 
-  @override
-  Future<void> setNewRoutePath(configuration) {
-    // TODO: implement setNewRoutePath
-    throw UnimplementedError();
-  }
+  // TODO: Convert app state to applink
 
+  // TODO: Apply configuration helper
+
+  // TODO: Replace setNewRoutePath
   @override
-  void dispose() {
-    appStateManager.removeListener(notifyListeners);
-    groceryManager.removeListener(notifyListeners);
-    profileManager.removeListener(notifyListeners);
-    super.dispose();
-  }
+  Future<void> setNewRoutePath(configuration) async => null;
 }

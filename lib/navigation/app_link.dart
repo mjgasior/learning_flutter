@@ -12,8 +12,7 @@ class AppLink {
   int? currentTab;
   String? itemId;
 
-  AppLink(
-      {required this.location, required this.currentTab, required this.itemId});
+  AppLink({this.location, this.currentTab, this.itemId});
 
   static AppLink fromLocation(String? location) {
     location = Uri.decodeFull(location ?? '');

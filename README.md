@@ -9,6 +9,7 @@ This project is based on a book ***Flutter apprentice*** by **Mike Katz, Kevin D
 * **`InkWell`** adds the tap effect on user gestures and **`Dismissible`** allows to handle the swipe gestures easily.
 * **`IndexedStack`** is a widget that holds the state of the app, so when switching between views, data is not being lost.
 * In **Navigator 2.0**, the navigation is not imperative as in **Navigator 1.0** where you had to operate with manually adding and removing pages with `.push()` and `.pop()`. calls. In the new declarative navigation, the instead of telling the navigator what to do with `.push()` and `.pop()`, you tell it: when the state is **X**, render **Y** pages.
+* **shared_preferences** is a Flutter plugin that allows to save data in a key-value format - it does not require any setup or configuration, stores simple data, but is not a good fit to store sensitive data (use **flutter_secure_storage** instead)
 
 ## Resources
 
